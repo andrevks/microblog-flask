@@ -10,8 +10,23 @@
     {% endif %}
   </head>
   <body>
-    <div> MicroBlog: <a href='/index'>Home</a></div>
+    <div> MicroBlog: 
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('login') }}">Login</a>
+    </div>
     <hr>
+    <!-- With construct to assing the result to a var.
+      The function return a list of msgs registerd with flash()
+    -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>  
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
     <!-- Place where the derived templates can insert themselves -->
     {% block content %}{% endblock %}
   </body>

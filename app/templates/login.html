@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Sign In</h1>
+  <!-- Action set to an empty string means that 
+  the form is submitted to the URL that is currently in the 
+  address bar -->
+  <form action='' method='post' novalidate>
+    <!-- This arg generates a hidden field that includes a token
+    that is used to protect the form against CSRF attacks -->
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.username.label }}<br>
+      {{ form.username(size=32) }}
+      {% for error in form.username.errors %}
+      <span style="color:#ff0038;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.password.label }}<br>
+      {{ form.password(size=32) }}
+      {% for error in form.password.errors %}
+      <span style="color:#ff0038;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+       {{ form.remember_me() }}{{ form.remember_me.label }}
+    </p>
+    <p>
+      {{ form.submit() }}
+    </p>
+  </form>
+{% endblock %}
