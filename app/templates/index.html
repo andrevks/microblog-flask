@@ -1,0 +1,14 @@
+<!-- Inherit from base.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Hi, {{ user.username }}!</h1>
+<!--The template cannot make any assumptions about how many
+    posts there are, so it needs to be prepared to render as 
+    many posts as the view sends in a generic way.-->
+  {% for post in posts %}
+  <div>
+    <p>{{ post.author.username }} says: <b>{{ post.body }}</b></p>
+  </div>
+  {% endfor %}
+{% endblock %}

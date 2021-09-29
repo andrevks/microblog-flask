@@ -1,0 +1,18 @@
+<!--This page layout contains a base template, 
+  from which all other templates are derived.  -->
+<!DOCTYPE html>
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - MicroBlog</title>
+    {% else %}
+    <title>Welcome to MicroBlog!</title>
+    {% endif %}
+  </head>
+  <body>
+    <div> MicroBlog: <a href='/index'>Home</a></div>
+    <hr>
+    <!-- Place where the derived templates can insert themselves -->
+    {% block content %}{% endblock %}
+  </body>
+</html>
