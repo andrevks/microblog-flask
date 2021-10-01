@@ -8,4 +8,4 @@
 
 ### For testing in the sheel
 
-- flask shell: The purpose of this command is to start a Python interpreter in the context of the application.
+- **flask shell:** The purpose of this command is to start a Python interpreter in the context of the application.

@@ -10,7 +10,7 @@ from flask import Flask
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-
+from flask_login import LoginManager
 
 #App object from the Class Flask
 app_obj = Flask(__name__)
@@ -19,6 +19,9 @@ app_obj.config.from_object(Config)
 #DB-ORM
 db = SQLAlchemy(app_obj)
 migrate = Migrate(app_obj, db)
+login = LoginManager(app_obj)
+#To force the login in certain pages
+login.login_view = 'login'
 
 #The bottom import is a workaround to circular imports.
 #This happens whenever there are multiple references

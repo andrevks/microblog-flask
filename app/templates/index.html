@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Hi, {{ user.username }}!</h1>
+  <h1>Hi, {{ current_user.username }}!</h1>
 <!--The template cannot make any assumptions about how many
     posts there are, so it needs to be prepared to render as 
     many posts as the view sends in a generic way.-->
