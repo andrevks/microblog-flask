@@ -1,5 +1,6 @@
 
 #Icludes generic implementations for most users models classes
+from hashlib import md5
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -17,6 +18,9 @@ class User(UserMixin, db.Model):
   #Post is the model class that represents the 'many' side
   #
   posts = db.relationship('Post', backref='author', lazy='dynamic')
+  #Extra info for the profile
+  about_me = db.Column(db.String(140))
+  last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
   def __repr__(self):
     #Tells how to print objects of this class
@@ -27,6 +31,10 @@ class User(UserMixin, db.Model):
   
   def check_password(self, password):
     return check_password_hash(self.password_hash, password)
+
+  def avatar(self, size):
+    digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+    return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'
 
 class Post(db.Model):
   id = db.Column(db.Integer, primary_key=True)

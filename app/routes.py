@@ -6,8 +6,11 @@
  so that Flask knows what logic to execute when 
  a client requests a given URL.
 '''
+from datetime import datetime
+from flask.templating import render_template_string
 from app import db
-from app.forms import RegistrationForm
+import app
+from app.forms import EditProfileForm, RegistrationForm
 from flask import request 
 from werkzeug.urls import url_parse
 from flask_login import logout_user, login_required
@@ -81,3 +84,46 @@ def register():
     flash('Congratulations, you are now a registered user!')
     return redirect(url_for('login'))
   return render_template('register.html', title='Register', form=form)
+  
+@app_obj.route('/user/<username>')
+@login_required
+def user(username):
+  #It sends automatically a 404 error back to the client
+  #in case the user hasn't been found.
+  user = User.query.filter_by(username=username).first_or_404()
+  #Fake list of the user's post 
+  posts = [
+    {
+      'author': user,
+      'body': 'Test post #1'
+    },
+    {
+      'author': user,
+      'body': 'Test post #2'
+    },
+  ]
+  return render_template('user.html', user=user, posts=posts)
+
+@app_obj.before_request
+def before_request():
+  if current_user.is_authenticated:
+    #There's no db.session.add() bf
+    #bc the the user is loaded already
+    current_user.last_seen = datetime.utcnow()
+    db.session.commit()
+
+@app_obj.route('/edit_profile', methods=['GET','POST'])
+@login_required
+def edit_profile():
+  form = EditProfileForm()
+  if form.validate_on_submit():
+    current_user.username = form.username.data
+    current_user.about_me = form.about_me.data
+    db.session.commit()
+    flash('Your changes have been saved.')
+    return redirect(url_for('edit_profile'))
+  elif request.method == 'GET':
+    form.username.data = current_user.username
+    form.about_me.data = current_user.about_me
+  return render_template('edit_profile.html', title='Edit Profile',
+                         form=form)
