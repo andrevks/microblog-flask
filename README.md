@@ -9,3 +9,15 @@
 ### For testing in the sheel
 
 - **flask shell:** The purpose of this command is to start a Python interpreter in the context of the application.
+
+
+### Images of how the project is so far
+
+Home
+![Home]( https://i.imgur.com/W7gQtAh.png "a title")
+
+Profile 
+![Home]( https://i.imgur.com/b1qwA6u.png "a title")
+
+Edit Profile 
+![Home]( https://i.imgur.com/0Sq6Ur9.png "a title")
