@@ -21,3 +21,11 @@ Profile
 
 Edit Profile 
 ![Home]( https://i.imgur.com/0Sq6Ur9.png "a title")
+
+
+### Errors Handling
+
+- Type: export/set FLASK_ENV=development
+
+- Fake email server:
+  python -m smtpd -n -c DebuggingServer localhost:port_number
