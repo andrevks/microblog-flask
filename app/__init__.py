@@ -14,6 +14,7 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_mail import Mail
 
 #App object from the Class Flask
 app_obj = Flask(__name__)
@@ -25,6 +26,8 @@ migrate = Migrate(app_obj, db)
 login = LoginManager(app_obj)
 #To force the login in certain pages
 login.login_view = 'login'
+#Mail
+mail = Mail(app_obj)
 
 if not app_obj.debug:
   #Email Errors Notifications:
