@@ -15,7 +15,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
-
+from flask_bootstrap import Bootstrap
 #App object from the Class Flask
 app_obj = Flask(__name__)
 #Config file necessary in flask app
@@ -28,6 +28,8 @@ login = LoginManager(app_obj)
 login.login_view = 'login'
 #Mail
 mail = Mail(app_obj)
+#CSS Framework
+bootstrap = Bootstrap(app_obj)
 
 if not app_obj.debug:
   #Email Errors Notifications:

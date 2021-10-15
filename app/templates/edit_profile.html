@@ -1,30 +1,11 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
-{% block content %}
-  <h1>Edit Profile</h1>
-  <!-- Action set to an empty string means that 
-  the form is submitted to the URL that is currently in the 
-  address bar -->
-  <form action='' method='post'>
-    <!-- This arg generates a hidden field that includes a token
-    that is used to protect the form against CSRF attacks -->
-    {{ form.hidden_tag() }}
-    <p>
-      {{ form.username.label }}<br>
-      {{ form.username(size=32) }}
-      {% for error in form.username.errors %}
-        <span style="color:#ff0038;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      {{ form.about_me.label }}<br>
-      {{ form.about_me(cols=50, rows=4) }}
-      {% for error in form.about_me.errors %}
-        <span style="color:#ff0038;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      {{ form.submit() }}
-    </p>
-  </form>
+{% block app_content %}
+    <h1>Edit Profile</h1>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
 {% endblock %}

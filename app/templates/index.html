@@ -1,33 +1,31 @@
 <!-- Inherit from base.html -->
 {% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
-{% block content %}
+{% block app_content %}
   <h1>Hi, {{ current_user.username }}!</h1>
 <!--The template cannot make any assumptions about how many
     posts there are, so it needs to be prepared to render as 
     many posts as the view sends in a generic way.-->
   {% if form %}
-  <form action="" method="post">
-    {{ form.hidden_tag() }}
-    <p>
-      {{ form.post.label }}<br>
-      {{ form.post(cols=32, rows=4) }} <br>
-      {% for error in form.post.errors %}
-      <span style="color:#ff0038;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      {{ form.submit() }}
-    </p>
-  </form>
+  {{ wtf.quick_form(form) }}
+  <br>
   {% endif %}
   {% for post in posts %}
     {% include '_post.html' %}
   {% endfor %}
-  {% if prev_url %}
-    <a href="{{ prev_url }}">Newer posts</a>
-  {% endif %}
-  {% if next_url %}
-    <a href="{{ next_url }}">Older posts</a>
-  {% endif %}
+  <nav aria-label="...">
+    <ul class="pager">
+      <li class="previous{% if not prev_url %} disabled{% endif %}">
+        <a href="{{ prev_url or '#' }}">
+          <span aria-hidden="true">&larr;</span> Newer posts
+        </a>
+      </li>
+      <li class="next{% if not next_url %} disabled{% endif %}">
+        <a href="{{ next_url or '#' }}">
+          Older posts <span aria-hidden="true">&larr;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 {% endblock %}
