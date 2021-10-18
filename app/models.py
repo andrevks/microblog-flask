@@ -2,13 +2,11 @@
 #Icludes generic implementations for most users models classes
 from time import time
 import jwt
-from app import app_obj
+from app import app_obj, db, login
 from hashlib import md5
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from app import db
-from app import login
 
 #Association table that has no data other than 
 #the foreign keys (No associated model class)
@@ -99,6 +97,7 @@ class Post(db.Model):
   # displayed.
   timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  language = db.Column(db.String(5))
 
   def __repr__(self):
     return '<Post {}>'.format(self.body)

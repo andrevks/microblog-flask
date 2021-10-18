@@ -23,6 +23,9 @@ from app import app_obj
 from app.forms import LoginForm, ResetPasswordForm
 from app.email import send_password_reset_email
 from flask_babel import _, get_locale
+from langdetect import detect, LangDetectException
+from flask import jsonify
+from app.translate import translate
 
 
 
@@ -33,7 +36,12 @@ from flask_babel import _, get_locale
 def index():
   form = PostForm()
   if form.validate_on_submit():
-    post = Post(body=form.post.data, author=current_user)
+    try:
+      language = detect(form.post.data)
+    except LangDetectException:
+      language = ''
+    post = Post(body=form.post.data, author=current_user,
+                language=language)
     db.session.add(post)
     db.session.commit()
     flash(_('Your post is now live!'))
@@ -216,3 +224,12 @@ def reset_password(token):
     flash(_('Your password has been reset.'))
     return redirect(url_for('login'))
   return render_template('reset_password.html',form=form)
+
+@app_obj.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+  #The request.form is a dict with all data submitted.
+  #When working with flask-WTF this was done automatically.
+  return jsonify({'text': translate( request.form['text'],
+                       request.form['source_language'],
+                       request.form['dest_language'])})
