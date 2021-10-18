@@ -9,7 +9,7 @@
 
   (venv) $ set FLASK_APP=microblog.py
 '''
-from app import app_obj, db
+from app import app_obj, db, cli
 from app.models import User, Post
 
 #Sheel context with the db and models

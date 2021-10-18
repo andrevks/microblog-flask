@@ -18,3 +18,5 @@ class Config(object):
   ADMINS = ['chialeverger@gmail.com']
   #POSTS
   POSTS_PER_PAGE = 25
+  #Translation
+  LANGUAGES = ['en','es']

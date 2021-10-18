@@ -1,6 +1,7 @@
 from flask_mail import Message 
 from app import mail, app_obj
 from flask import render_template
+from flask_babel import _
 from threading import Thread
 
 def send_email(subject, sender, recipients, text_body, html_body):
@@ -11,7 +12,7 @@ def send_email(subject, sender, recipients, text_body, html_body):
 
 def send_password_reset_email(user):
   token = user.get_reset_password_token()
-  send_email('[MICROBLOG] Reset Your Password',
+  send_email(_('[MICROBLOG] Reset Your Password'),
             sender=app_obj.config['ADMINS'][0],
             recipients=[user.email],
             text_body=render_template('email/reset_password.txt',

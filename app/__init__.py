@@ -17,6 +17,9 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_babel import Babel, lazy_gettext as _l
+from flask import request
+
 #App object from the Class Flask
 app_obj = Flask(__name__)
 #Config file necessary in flask app
@@ -27,12 +30,15 @@ migrate = Migrate(app_obj, db)
 login = LoginManager(app_obj)
 #To force the login in certain pages
 login.login_view = 'login'
+login.login_message = _l('Please log in to access this page.')
 #Mail
 mail = Mail(app_obj)
 #CSS Framework
 bootstrap = Bootstrap(app_obj)
 #Date and time 
 moment = Moment(app_obj)
+#Translation
+babel = Babel(app_obj)
 
 if not app_obj.debug:
   #Email Errors Notifications:
@@ -68,6 +74,10 @@ if not app_obj.debug:
   app_obj.logger.setLevel(logging.INFO)
   app_obj.logger.info('Microblog startup')
 
+@babel.localeselector
+def get_locale():
+  return request.accept_languages.best_match(app_obj.config['LANGUAGES'])
+  
 #The bottom import is a workaround to circular imports.
 #This happens whenever there are multiple references
 #between files.
