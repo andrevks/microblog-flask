@@ -230,6 +230,8 @@ def reset_password(token):
 def translate_text():
   #The request.form is a dict with all data submitted.
   #When working with flask-WTF this was done automatically.
-  return jsonify({'text': translate( request.form['text'],
-                       request.form['source_language'],
-                       request.form['dest_language'])})
+  response = jsonify({'text': translate( 
+                      request.form['text'],
+                      request.form['source_language'],
+                      request.form['dest_language'])})
+  return response
